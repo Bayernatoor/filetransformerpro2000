@@ -5,10 +5,10 @@ A basic GUI interface that uses python, tkinter and ffmpeg. raise volume, compre
 
 **How to run**
 
-1. clone repo
+1. Clone repo
 2. Create a virtual environement with virtualenv
-3. intall requirements with `pip3 install -r requirements.txt`
-4. from within the filetransformer directory run `python main.py`
+3. Intall requirements with `pip3 install -r requirements.txt`
+4. From within the filetransformer directory run `python main.py`
 
 pyinstaller can also be used to make a binary for Linux, MacOS or windows. 
 
