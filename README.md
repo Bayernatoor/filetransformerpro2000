@@ -1,4 +1,4 @@
-# filetransformerpro2000
+# Filetransformerpro2000
 GUI ffmpeg tool
 
 A basic GUI interface that uses python, tkinter and ffmpeg. raise volume, compress in 264/265, equalize audio, reduce background noise, sync files (2 options basic and precise)
