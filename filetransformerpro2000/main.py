@@ -176,6 +176,13 @@ def popup_three():
 
 
 def ffmpeg_script():
+    '''
+    main function that handles the media and runs ffmpeg. Sets variables when clicked/used in the GUI.
+    
+    Function runs without posting to the terminal. All errors and stderror/stdout is 
+    pipped to a text file which is added to the downloads folder. Some errors will appear as popups
+    directly in the GUI for easy understanding of what went wrong. 
+    '''  
     os.chdir(download_folder)
     errors = False
     selected = clicked.get()
@@ -183,11 +190,13 @@ def ffmpeg_script():
     volume = f"volume={entry_parameter.get()}"
     precise = entry_parameter.get()
     duration = entry_parameter.get()
+    # rename filename add random string to avoid duplicate names
     filename = selected.lower() + str(random.randrange(10000)) + ".mp4"
     new_file = (
         selected.lower() + str(random.randrange(10000)) + f".{entry_parameter.get()}"
     )
 
+    # available ffmpeg scripts
     scripts = {
         "Adjust Volume": [
             "ffmpeg",
@@ -398,6 +407,7 @@ def ffmpeg_script():
                 stderr=subprocess.PIPE,
                 text=True,
             )
+            # write everything to a text file which is then added to downloads folder for debugging (process needs improvement)
             stdoutdata, stderrdata = process.communicate()
             with open("ignorethislog.txt", "w") as log:
                 log.write(stderrdata)
@@ -415,10 +425,12 @@ def ffmpeg_script():
                     return messagebox.showinfo(
                         "Heads up", "Please enter a valid number"
                     )
+                # check if video has an audio stream
                 elif process.wait() != 0 and selected == "Precise Sync":
                     return messagebox.showinfo(
                         "Heads up", "File has no audio stream.\nPrecise Sync won't work"
                     )
+                # other unhandled error will display error in the GUI
                 elif process.wait() != 0:
                     return messagebox.showinfo("Heads up\n", stderrdata)
                 elif selected == "Change Format":
@@ -446,6 +458,7 @@ def ffmpeg_script():
         except OSError as e:
             errors = True
             return e.strerror, errors
+    # if hit then the selection was not valid. Popup is called to alert user
     else:
         popup_two()
 
@@ -599,10 +612,13 @@ There might be bugs, please report them
 if you can :)
 """
 
+# create helper text box at the bottom of the app.
 help_text = Text(root, width=40, borderwidth=5)
 help_text.grid(row=9, column=3)
 help_text.insert(END, explainer_text)
 help_text.config(fg="#0A2239", bg="#E6E8EB")
 help_text["font"] = second_font
 
+
+# keeps the app running.
 root.mainloop()
